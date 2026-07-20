@@ -1,0 +1,105 @@
+// Espelho das tabelas do sistema PHP (includes/db.php), incluindo as colunas
+// de precificação e status adicionadas depois do checkpoint.
+//
+// SQLite no desenvolvimento; em produção na Hostinger o banco é MySQL —
+// troque com `npm run db:mysql` (e volte com `npm run db:sqlite`). Ver
+// DEPLOY-HOSTINGER.md. O schema evita tipos exclusivos de um banco (por
+// isso Float, não Decimal: SQLite não suporta Decimal no Prisma; o
+// arredondamento monetário é feito no código, como no PHP).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUsuario {
+  id        Int      @id @default(autoincrement())
+  usuario   String   @unique
+  nome      String   @default("")
+  senhaHash String
+  criadoEm  DateTime @default(now())
+}
+
+/// Chave/valor: padrões de cálculo e dados da empresa — nada de regra no código.
+model Configuracao {
+  chave String  @id
+  valor String?
+}
+
+model Tecido {
+  id                  Int      @id @default(autoincrement())
+  nome                String
+  codigo              String   @default("")
+  tipo                String   @default("")
+  composicao          String   @default("")
+  cor                 String   @default("")
+  largura             Float    @default(0)
+  precoMetro          Float    @default(0)
+  encolhimentoPercent Float    @default(0)
+  rapport             Float    @default(0)
+  estampado           Boolean  @default(false)
+  fornecedor          String   @default("")
+  estoqueMetros       Float    @default(0)
+  estoqueMinimo       Float    @default(0)
+  observacoes         String?
+  ativo               Boolean  @default(true)
+  criadoEm            DateTime @default(now())
+}
+
+model ModeloCortina {
+  id                Int      @id @default(autoincrement())
+  nome              String
+  slug              String   @unique
+  fatorFranzimento  Float    @default(2)
+  margemBarras      Float    @default(0.2)
+  usaEntretela      Boolean  @default(false)
+  usaIlhos          Boolean  @default(false)
+  espacamentoIlhos  Float    @default(0.16)
+  descricao         String?
+  ativo             Boolean  @default(true)
+  criadoEm          DateTime @default(now())
+}
+
+model Acessorio {
+  id            Int      @id @default(autoincrement())
+  nome          String
+  tipo          String   @default("outro")
+  unidade       String   @default("un")
+  preco         Float    @default(0)
+  largura       Float    @default(0)
+  fornecedor    String   @default("")
+  estoque       Float    @default(0)
+  estoqueMinimo Float    @default(0)
+  ativo         Boolean  @default(true)
+  criadoEm      DateTime @default(now())
+}
+
+/// Orçamento. `dados` e `resultado` são snapshots JSON da entrada e do
+/// resultado no dia do cálculo: mudar o preço de um tecido amanhã não altera
+/// o que foi orçado hoje.
+model Calculo {
+  id                 Int      @id @default(autoincrement())
+  clienteNome        String   @default("")
+  ambiente           String   @default("")
+  tecidoId           Int?
+  modeloId           Int?
+  tecidoNome         String   @default("")
+  modeloNome         String   @default("")
+  metodo             String   @default("")
+  metragemFinal      Float    @default(0)
+  custoTotal         Float    @default(0)
+  dados              Json?
+  resultado          Json?
+  observacoes        String?
+  status             String   @default("rascunho")
+  validadeDias       Int      @default(15)
+  condicoesPagamento String   @default("")
+  maoObra            Float    @default(0)
+  margemPercent      Float    @default(0)
+  precoVenda         Float    @default(0)
+  criadoEm           DateTime @default(now())
+}

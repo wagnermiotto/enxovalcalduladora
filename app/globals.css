@@ -1,0 +1,505 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Enxovais & Cortinas — porte dos tokens e componentes do
+   sistema PHP (styles.css + admin.css + calculadora.css).
+   Mesma paleta linho/terracota, mesmas classes — os dois
+   sistemas têm a mesma cara.
+   ========================================================= */
+
+:root {
+  /* superfícies */
+  --linho: #faf7f2;
+  --linho-2: #f3ede4;
+  --papel: #ffffff;
+  --borda: #e4dbcd;
+  --borda-forte: #cfc2ad;
+
+  /* texto */
+  --tinta: #2e2823;
+  --tinta-media: #6b6055;
+  --tinta-suave: #948779;
+
+  /* acentos */
+  --terracota: #b4562f;
+  --terracota-esc: #8f4223;
+  --terracota-luz: #fdf1eb;
+  --verde: #4a7c59;
+  --verde-luz: #eef5ef;
+  --ambar: #b07d1e;
+  --ambar-luz: #fdf5e3;
+  --vermelho: #a63232;
+  --vermelho-luz: #fbeded;
+
+  --fonte-titulo: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --fonte-texto: var(--font-inter), -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --raio: 10px;
+  --raio-p: 6px;
+  --sombra: 0 1px 2px rgba(46, 40, 35, 0.06), 0 4px 12px rgba(46, 40, 35, 0.05);
+  --sombra-alta: 0 8px 28px rgba(46, 40, 35, 0.12);
+  --wrap: 1180px;
+}
+
+body {
+  margin: 0;
+  background: var(--linho);
+  color: var(--tinta);
+  font-family: var(--fonte-texto);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.4em;
+  letter-spacing: -0.01em;
+}
+h1 { font-size: 1.7rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+
+a { color: var(--terracota); }
+
+.wrap {
+  width: min(100% - 2rem, var(--wrap));
+  margin-inline: auto;
+}
+
+/* ---------- topo ---------- */
+.topo {
+  background: var(--papel);
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.topo__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 62px;
+  flex-wrap: wrap;
+}
+.topo__marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--tinta);
+  flex-shrink: 0;
+}
+.topo__logo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--raio-p);
+  background: var(--terracota);
+  color: #fff;
+  font-family: var(--fonte-titulo);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.topo__nome { font-family: var(--fonte-titulo); font-weight: 600; }
+.topo__usuario { margin-left: auto; display: flex; align-items: center; gap: 0.8rem; }
+.topo__quem { color: var(--tinta-suave); font-size: 0.85rem; }
+
+.nav { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+.nav__link {
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--raio-p);
+  text-decoration: none;
+  color: var(--tinta-media);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.nav__link:hover { background: var(--linho-2); color: var(--tinta); }
+.nav__link--ativo { background: var(--terracota-luz); color: var(--terracota-esc); font-weight: 600; }
+.nav__link--sair { color: var(--tinta-suave); background: none; border: none; font: inherit; font-size: 0.9rem; cursor: pointer; }
+.nav__link--sair:hover { background: var(--linho-2); }
+
+.principal { padding: 1.6rem 0 3rem; }
+
+.rodape {
+  border-top: 1px solid var(--borda);
+  padding: 1.2rem 0;
+  color: var(--tinta-suave);
+  font-size: 0.82rem;
+}
+
+/* ---------- botões ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-p);
+  background: var(--papel);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.btn:hover { background: var(--linho-2); }
+.btn--primario { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+.btn--primario:hover { background: var(--terracota-esc); border-color: var(--terracota-esc); }
+.btn--perigo { color: var(--vermelho); border-color: #e6cfcf; }
+.btn--perigo:hover { background: var(--vermelho-luz); }
+.btn--p { padding: 0.3rem 0.6rem; font-size: 0.82rem; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- formulários ---------- */
+.campo { margin-bottom: 0.9rem; }
+.campo__rotulo {
+  display: block;
+  margin-bottom: 0.28rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+.campo__dica { display: block; margin-top: 0.25rem; font-size: 0.76rem; color: var(--tinta-suave); }
+input[type="text"], input[type="number"], input[type="password"],
+input[type="date"], input[type="email"], select, textarea {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-p);
+  background: var(--papel);
+  color: var(--tinta);
+  font: inherit;
+  font-size: 0.92rem;
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--terracota);
+  outline-offset: -1px;
+  border-color: var(--terracota);
+}
+textarea { min-height: 80px; resize: vertical; }
+.campo__linha { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+.campo__linha input[type="checkbox"] { width: auto; }
+
+.grade { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+/* ---------- cartões e tabelas ---------- */
+.cartao {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1.1rem;
+  box-shadow: var(--sombra);
+}
+.cartao__titulo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tinta-suave);
+  margin-bottom: 0.7rem;
+  font-family: var(--fonte-texto);
+}
+
+.tabela-rolo { overflow-x: auto; }
+.tabela { width: 100%; border-collapse: collapse; background: var(--papel); font-size: 0.9rem; }
+.tabela th, .tabela td {
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+}
+.tabela th {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tinta-suave);
+  background: var(--linho-2);
+}
+.tabela tbody tr:hover { background: var(--linho); }
+.tabela .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.etiqueta {
+  display: inline-block;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--linho-2);
+  color: var(--tinta-media);
+}
+.etiqueta--ok { background: var(--verde-luz); color: var(--verde); }
+.etiqueta--aviso { background: var(--ambar-luz); color: var(--ambar); }
+.etiqueta--inativo { background: var(--linho-2); color: var(--tinta-suave); }
+
+/* ---------- avisos ---------- */
+.aviso {
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--raio-p);
+  border: 1px solid #cfe3d4;
+  background: var(--verde-luz);
+  color: #2f5d3c;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+.aviso--erro { background: var(--vermelho-luz); border-color: #eccfcf; color: #7d2626; }
+.aviso--atencao { background: var(--ambar-luz); border-color: #ecdcb4; color: #7a5612; }
+
+.vazio {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--tinta-suave);
+  background: var(--papel);
+  border: 1px dashed var(--borda-forte);
+  border-radius: var(--raio);
+}
+
+/* ---------- estruturas do admin ---------- */
+.cabecalho {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.cabecalho__sub { color: var(--tinta-suave); font-size: 0.88rem; margin: 0; }
+.cabecalho__acoes { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.filtros {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+}
+.filtros .campo { margin-bottom: 0; }
+.filtros__busca { flex: 1 1 220px; }
+
+.kpis {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-bottom: 1.4rem;
+}
+.kpi {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 0.9rem 1rem;
+  box-shadow: var(--sombra);
+}
+.kpi__rotulo {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tinta-suave);
+  font-weight: 700;
+}
+.kpi__valor {
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+.kpi__pe { font-size: 0.78rem; color: var(--tinta-suave); }
+
+.login-tela {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: radial-gradient(1200px 400px at 50% -10%, var(--terracota-luz), transparent), var(--linho);
+}
+.login-caixa {
+  width: min(100%, 370px);
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1.8rem;
+  box-shadow: var(--sombra-alta);
+}
+.login-caixa__marca { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.2rem; }
+.login-caixa h1 { font-size: 1.25rem; margin: 0; }
+
+.acoes-linha { display: flex; gap: 0.4rem; }
+
+.bloco { margin-bottom: 1.2rem; }
+.bloco__titulo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tinta-suave);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--borda);
+  margin-bottom: 0.8rem;
+  font-family: var(--fonte-texto);
+}
+.form-pe {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid var(--borda);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+/* ---------- calculadora ---------- */
+.calc {
+  display: grid;
+  grid-template-columns: minmax(320px, 400px) 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .calc { grid-template-columns: 1fr; }
+  .calc__form { position: static; }
+}
+.calc__form { position: sticky; top: 78px; }
+.calc__saida { min-width: 0; }
+
+.calc__salvar {
+  margin-top: 1rem;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1rem;
+}
+
+.avancado {
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-p);
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1rem;
+  background: var(--linho);
+}
+.avancado summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; color: var(--tinta-media); }
+.avancado[open] summary { margin-bottom: 0.6rem; }
+
+.resultado {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 1.2rem;
+  box-shadow: var(--sombra);
+  margin-bottom: 1rem;
+}
+@media (max-width: 640px) {
+  .resultado { grid-template-columns: 1fr; }
+}
+.resultado__destaque {
+  text-align: center;
+  padding: 0.8rem 1.4rem;
+  background: var(--terracota-luz);
+  border-radius: var(--raio);
+  align-self: start;
+}
+.resultado__numero {
+  font-family: var(--fonte-titulo);
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--terracota-esc);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.resultado__legenda {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--terracota);
+  margin-top: 0.25rem;
+}
+.resultado__custo {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(180, 86, 47, 0.2);
+  font-weight: 600;
+  color: var(--terracota-esc);
+}
+.resultado__metodo p { margin: 0.5rem 0 0.8rem; color: var(--tinta-media); font-size: 0.88rem; }
+
+.resumo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+.resumo div { margin: 0; }
+.resumo dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--tinta-suave);
+  font-weight: 600;
+}
+.resumo dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.memoria { margin-top: 1rem; }
+.memoria__tabela td { white-space: normal; vertical-align: top; }
+.memoria__rotulo { font-weight: 600; width: 30%; }
+.memoria__formula { font-family: var(--fonte-mono); font-size: 0.8rem; color: var(--tinta-media); }
+.memoria__valor { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.totais {
+  margin-top: 1rem;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 0.8rem 1rem;
+}
+.totais div { display: flex; justify-content: space-between; padding: 0.3rem 0; font-size: 0.9rem; }
+.totais__total { border-top: 1px solid var(--borda); margin-top: 0.3rem; padding-top: 0.5rem !important; font-size: 1rem !important; }
+.totais__total strong { color: var(--terracota-esc); }
+
+/* ---------- orçamento para cliente ---------- */
+.orcamento-cabecalho { border-bottom: 2px solid var(--tinta); padding-bottom: 0.6rem; margin-bottom: 1rem; }
+.orcamento-cabecalho strong { display: block; font-family: var(--fonte-titulo); font-size: 1.3rem; }
+.orcamento-cabecalho span { display: block; font-size: 0.85rem; color: var(--tinta-media); }
+
+/* ---------- impressão ---------- */
+.somente-imprimir { display: none; }
+
+@media print {
+  .topo, .rodape, .nao-imprimir, .calc__form, .calc__salvar { display: none !important; }
+  .somente-imprimir { display: block; }
+
+  body { background: #fff; font-size: 11pt; }
+  .principal { padding: 0; }
+  .wrap { width: 100%; }
+  .calc { display: block; }
+
+  .folha-cabecalho { border-bottom: 2px solid #000; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+  .folha-cabecalho strong { display: block; font-family: var(--fonte-titulo); font-size: 1.2rem; }
+  .folha-cabecalho span { display: block; font-size: 0.85rem; color: #444; }
+
+  .cartao, .resultado, .totais { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+  .resultado__destaque { background: #f4f4f4 !important; }
+  .resultado__numero, .resultado__legenda, .resultado__custo, .totais__total strong { color: #000 !important; }
+  .memoria { break-inside: avoid; }
+  .tabela th { background: #f4f4f4 !important; }
+  a { text-decoration: none; color: #000; }
+
+  @page { size: A4; margin: 1.5cm; }
+}
+
+@media (max-width: 720px) {
+  .topo__inner { min-height: auto; padding: 0.6rem 0; }
+  .nav { order: 3; width: 100%; overflow-x: auto; }
+  .topo__usuario { margin-left: auto; }
+}
