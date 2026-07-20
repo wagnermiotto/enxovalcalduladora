@@ -51,6 +51,8 @@ export const UNIDADES: Record<string, string> = {
 };
 
 export const STATUS_ORCAMENTO: Record<string, string> = {
+  /** Chegou pelo site público e ainda não foi trabalhado pela loja. */
+  solicitado: "Solicitado pelo cliente",
   rascunho: "Rascunho",
   enviado: "Enviado",
   aprovado: "Aprovado",
@@ -64,6 +66,8 @@ export function statusEtiquetaClasse(status: string): string {
       return "etiqueta--ok";
     case "enviado":
       return "etiqueta--aviso";
+    case "solicitado":
+      return "etiqueta--novo";
     case "recusado":
       return "etiqueta--inativo";
     default:

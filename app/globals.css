@@ -237,6 +237,7 @@ textarea { min-height: 80px; resize: vertical; }
 .etiqueta--ok { background: var(--verde-luz); color: var(--verde); }
 .etiqueta--aviso { background: var(--ambar-luz); color: var(--ambar); }
 .etiqueta--inativo { background: var(--linho-2); color: var(--tinta-suave); }
+.etiqueta--novo { background: var(--terracota-luz); color: var(--terracota-esc); }
 
 /* ---------- avisos ---------- */
 .aviso {
@@ -503,3 +504,42 @@ textarea { min-height: 80px; resize: vertical; }
   .nav { order: 3; width: 100%; overflow-x: auto; }
   .topo__usuario { margin-left: auto; }
 }
+
+/* ---------- site público (pedido de orçamento) ---------- */
+.publico { max-width: 720px; margin-inline: auto; }
+.publico__intro { text-align: center; margin-bottom: 1.6rem; }
+.publico__intro h1 { font-size: 2rem; }
+.publico__intro p { color: var(--tinta-media); margin: 0 auto; max-width: 46ch; }
+
+.publico__estimativa {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  background: var(--terracota-luz);
+  border: 1px solid #f0d7cb;
+  border-radius: var(--raio);
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.publico__estimativa-rotulo {
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 700;
+  color: var(--terracota);
+}
+.publico__estimativa-valor {
+  display: block;
+  font-family: var(--fonte-titulo);
+  font-size: 1.9rem;
+  line-height: 1.1;
+  color: var(--terracota-esc);
+  font-variant-numeric: tabular-nums;
+}
+.publico__estimativa .campo__dica { color: #7c4a33; }
+
+.publico__enviar { width: 100%; justify-content: center; font-size: 1rem; padding: .8rem; }
+
+.publico__sucesso { text-align: center; padding: 2rem 1.2rem; }
+.publico__sucesso h2 { color: var(--verde); }
+.publico__sucesso p { color: var(--tinta-media); max-width: 46ch; margin: .6rem auto; }

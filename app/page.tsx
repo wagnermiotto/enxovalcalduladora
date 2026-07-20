@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-// Por enquanto o sistema é só o painel interno — como no PHP, a raiz manda
-// para dentro. Quando existir uma vitrine pública, ela entra aqui.
+// A raiz do site é a área do CLIENTE: quem chega pelo domínio vê o pedido de
+// orçamento, não o painel. A equipe entra por /painel.
 export default function Home() {
-  redirect("/painel");
+  redirect("/orcamento");
 }

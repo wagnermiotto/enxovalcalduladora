@@ -103,10 +103,15 @@ export default async function OrcamentosPage({
                   <td>{dataHoraBr(c.criadoEm)}</td>
                   <td>
                     <strong>{c.clienteNome !== "" ? c.clienteNome : "—"}</strong>
-                    {c.ambiente !== "" && (
+                    {c.origem === "site" && (
+                      <> <span className="etiqueta etiqueta--novo">pelo site</span></>
+                    )}
+                    {(c.ambiente !== "" || c.clienteTelefone !== "") && (
                       <>
                         <br />
-                        <span className="campo__dica">{c.ambiente}</span>
+                        <span className="campo__dica">
+                          {[c.ambiente, c.clienteTelefone].filter(Boolean).join(" · ")}
+                        </span>
                       </>
                     )}
                   </td>

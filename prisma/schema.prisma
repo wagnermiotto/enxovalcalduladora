@@ -84,6 +84,12 @@ model Acessorio {
 model Calculo {
   id                 Int      @id @default(autoincrement())
   clienteNome        String   @default("")
+  /// Contato de quem pediu — essencial nos pedidos vindos do site público,
+  /// senão a loja não tem como responder.
+  clienteTelefone    String   @default("")
+  clienteEmail       String   @default("")
+  /// "painel" (feito pela loja) ou "site" (solicitado pelo cliente).
+  origem             String   @default("painel")
   ambiente           String   @default("")
   tecidoId           Int?
   modeloId           Int?

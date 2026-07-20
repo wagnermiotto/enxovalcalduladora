@@ -75,6 +75,27 @@ export default async function OrcamentoVerPage({
 
       {msg === "atualizado" && <div className="aviso nao-imprimir">Orçamento atualizado.</div>}
 
+      {calculo.origem === "site" && (
+        <div className="aviso aviso--atencao nao-imprimir">
+          <strong>Pedido feito pelo cliente no site.</strong> Os valores foram calculados
+          automaticamente com os preços do cadastro — confira antes de responder.
+          {(calculo.clienteTelefone || calculo.clienteEmail) && (
+            <>
+              {" "}Contato:{" "}
+              {calculo.clienteTelefone && (
+                <a href={`tel:${calculo.clienteTelefone.replace(/\D/g, "")}`}>
+                  {calculo.clienteTelefone}
+                </a>
+              )}
+              {calculo.clienteTelefone && calculo.clienteEmail && " · "}
+              {calculo.clienteEmail && (
+                <a href={`mailto:${calculo.clienteEmail}`}>{calculo.clienteEmail}</a>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
       <div className="cartao nao-imprimir" style={{ marginBottom: "1rem" }}>
         <div className="cartao__titulo">Status e condições</div>
         <form action={atualizarOrcamento.bind(null, calculo.id)}>

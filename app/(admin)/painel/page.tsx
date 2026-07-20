@@ -13,7 +13,7 @@ export default async function PainelPage() {
   inicioDoMes.setDate(1);
   inicioDoMes.setHours(0, 0, 0, 0);
 
-  const [totalTecidos, totalModelos, totalOrcamentos, mes, ultimos, semRapport, comMinimo] =
+  const [totalTecidos, totalModelos, totalOrcamentos, mes, ultimos, semRapport, comMinimo, pedidosNovos] =
     await Promise.all([
       prisma.tecido.count({ where: { ativo: true } }),
       prisma.modeloCortina.count({ where: { ativo: true } }),
@@ -31,6 +31,11 @@ export default async function PainelPage() {
       prisma.tecido.findMany({
         where: { ativo: true, estoqueMinimo: { gt: 0 } },
         orderBy: { nome: "asc" },
+      }),
+      prisma.calculo.findMany({
+        where: { status: "solicitado" },
+        orderBy: { criadoEm: "desc" },
+        select: { id: true, clienteNome: true },
       }),
     ]);
 
@@ -75,9 +80,29 @@ export default async function PainelPage() {
         </div>
       </div>
 
-      {(semRapport.length > 0 || estoqueBaixo.length > 0) && (
+      {(pedidosNovos.length > 0 || semRapport.length > 0 || estoqueBaixo.length > 0) && (
         <div className="cartao" style={{ marginBottom: "1.2rem" }}>
           <div className="cartao__titulo">Pendências</div>
+
+          {pedidosNovos.length > 0 && (
+            <div className="aviso">
+              <strong>
+                {pedidosNovos.length}{" "}
+                {pedidosNovos.length === 1
+                  ? "pedido novo pelo site"
+                  : "pedidos novos pelo site"}
+              </strong>{" "}
+              esperando resposta:{" "}
+              {pedidosNovos.map((c, i) => (
+                <span key={c.id}>
+                  <Link href={`/orcamentos/${c.id}`}>
+                    #{c.id} {c.clienteNome || "sem nome"}
+                  </Link>
+                  {i < pedidosNovos.length - 1 ? ", " : ""}
+                </span>
+              ))}
+            </div>
+          )}
 
           {semRapport.length > 0 && (
             <div className="aviso aviso--atencao">
