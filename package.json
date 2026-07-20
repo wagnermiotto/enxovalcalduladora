@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/prisma-provider-auto.mjs && prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "postinstall": "prisma generate",
+    "postinstall": "node scripts/prisma-provider-auto.mjs && prisma generate",
     "db:mysql": "node scripts/trocar-provider.mjs mysql && prisma generate",
     "db:sqlite": "node scripts/trocar-provider.mjs sqlite && prisma generate"
   },

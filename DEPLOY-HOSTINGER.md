@@ -15,16 +15,11 @@ A Hostinger só oferece MySQL nos planos de hospedagem (não há Postgres).
 
 ## 2. Preparar o projeto para MySQL
 
-No seu computador, dentro de `next-app`:
+**Nada a fazer** — é automático. O build roda `scripts/prisma-provider-auto.mjs`,
+que lê o `DATABASE_URL` e ajusta o provider do Prisma sozinho: `mysql://` vira
+MySQL, `file:` vira SQLite. O schema serve aos dois bancos sem mudar nenhum tipo.
 
-```bash
-npm run db:mysql       # troca o provider do Prisma de sqlite para mysql
-```
-
-(Para voltar a desenvolver localmente com SQLite: `npm run db:sqlite`.)
-
-Faça commit dessa mudança antes de publicar. O schema foi desenhado para os
-dois bancos — nenhum tipo precisa mudar, só essa linha.
+(Se precisar forçar à mão: `npm run db:mysql` / `npm run db:sqlite`.)
 
 ## 3. Criar o Web App no hPanel
 
@@ -66,6 +61,28 @@ cadastra os tecidos reais pela tela.
 - Rode um cálculo conhecido (varão 3,00 × altura 2,50, prega americana,
   tecido 1,40 m, encolhimento 5%, segurança 10% → **19,20 m**) e confira
   que bate com o sistema local.
+
+## Se aparecer "problema com a configuração do servidor"
+
+```json
+{"message":"Ocorreu um problema com a configuração do servidor..."}
+```
+
+É o Auth.js dizendo que não conseguiu funcionar — quase sempre por causa do
+banco. Verifique nesta ordem:
+
+1. **As tabelas existem?** Se você ainda não rodou o passo 5 (`prisma db push`),
+   o banco está vazio e toda consulta falha. **Esta é a causa mais comum.**
+2. **`DATABASE_URL` está certa?** Precisa começar com `mysql://` e usar o
+   **host da Hostinger** (`srvNNNN.hstgr.io`), nunca `localhost`. Teste pelo
+   SSH: `npx prisma db pull` — se conectar, a URL está boa.
+3. **`AUTH_SECRET` está definida?** Sem ela o Auth.js recusa a iniciar.
+4. **O provider bateu?** No log de build deve aparecer
+   `[prisma] provider ajustado de "sqlite" para "mysql"`. Se não apareceu, o
+   `DATABASE_URL` não estava disponível durante o build — confirme que a
+   variável está salva no painel do Web App e refaça o deploy.
+
+Os registros ficam em hPanel → seu Web App → **Logs**.
 
 ## Referências
 
